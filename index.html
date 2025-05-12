@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Українські письменники на карті</title>
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+e2sLbDxkXoJnG0hP6F0pR1KkR5aqYkG6tM5w5rPo="
+    crossorigin="" />
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #map { width: 100%; height: 100%; }
+    .popup-content img { max-width: 100px; display: block; margin: 0 auto 10px; }
+    .popup-content h3 { margin: 0 0 5px; text-align: center; }
+    .popup-content p { margin: 0; text-align: center; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1j8kPJyQGLCYhVnP3UJg8We1iqPzNfNf+V0CPthe="
+    crossorigin="">
+  </script>
+  <script>
+    // Ініціалізація карти
+    const map = L.map('map').setView([49.0, 31.0], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Дані письменників: [ім'я, координати, шлях до фото, опис]
+    const writers = [
+      ['Степан Руданський', [49.244, 30.693], 'images/rudansky.jpg', 'Український поет, перекладач і сатирик.'],
+      ['Олександр Олесь', [49.950, 36.300], 'images/oles.jpg', 'Ліричний поет, прозаїк, драматург.'],
+      ['Михайло Коцюбинський', [49.226, 28.044], 'images/kotsyubynsky.jpg', 'Видатний прозаїк кінця XIX – початку XX ст.'],
+      ['Іван Франко', [49.730, 24.526], 'images/franko.jpg', 'Літературний діяч, поет, прозаїк, критик.'],
+      ['Панас Мирний', [49.588, 34.551], 'images/myrnyi.jpg', 'Письменник, новеліст, драматург.'],
+      ['Леся Українка', [50.629, 28.626], 'images/ukrainka.jpg', 'Поетеса, драматург, перекладачка.'],
+      ['Ольга Кобилянська', [47.602, 25.912], 'images/kobylianska.jpg', 'Письменниця, культурна діячка Буковини.'],
+      ['Володимир Винниченко', [48.510, 32.262], 'images/vynnychenko.jpg', 'Письменник, політичний діяч, драматург.'],
+      ['Михайло Старицький', [50.450, 30.523], 'images/starytskyi.jpg', 'Письменник, драматург, перекладач.'],
+      ['Марко Вовчок', [50.747, 25.325], 'images/vovchok.jpg', 'Письменниця, перекладачка, прозаїк.']
+    ];
+
+    writers.forEach(([name, coords, img, desc]) => {
+      const marker = L.marker(coords).addTo(map);
+      const html = `
+        <div class="popup-content">
+          <img src="${img}" alt="${name}" />
+          <h3>${name}</h3>
+          <p>${desc}</p>
+        </div>`;
+      marker.bindPopup(html);
+    });
+  </script>
+</body>
+</html>
