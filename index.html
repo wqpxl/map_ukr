@@ -26,11 +26,10 @@
     }
     .flag {
       position: absolute;
-      width: 48px;   /* збільшений розмір */
-      height: 48px;  /* збільшений розмір */
+      width: 48px;
+      height: 48px;
       cursor: pointer;
     }
-
     .tooltip {
       position: absolute;
       background-color: white;
@@ -40,6 +39,13 @@
       max-width: 250px;
       display: none;
       z-index: 10;
+      text-align: left;
+    }
+    .tooltip img {
+      display: block;
+      max-width: 100px;
+      margin-bottom: 8px;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -47,18 +53,18 @@
   <h1>Культурна мапа України</h1>
   <div class="map-container">
     <img src="ukraine-map.png" alt="Карта України" class="map-image">
-    <img src="flag.png" class="flag" style="top: 40%; left: 40%;" onclick="showInfo(event, 'Степан Руданський – Вінниччина\nМайстер гумористичних співомовок і сатир')">
-    <img src="flag.png" class="flag" style="top: 16%; left: 60%;" onclick="showInfo(event, 'Олександр Олесь – Сумщина\nПоет-лірик, співець мрій і волі')">
-    <img src="flag.png" class="flag" style="top: 12%; left: 51%;" onclick="showInfo(event, 'Михайло Коцюбинський – Чернігівщина\nІмпресіоніст, автор Тіней забутих предків')">
-    <img src="flag.png" class="flag" style="top: 29%; left: 24%;" onclick="showInfo(event, 'Іван Франко – Львівщина\nГеніальний мислитель, поет, драматург')">
-    <img src="flag.png" class="flag" style="top: 30%; left: 59%;" onclick="showInfo(event, 'Панас Мирний – Полтавщина\nАвтор глибоких соціально-психологічних романів')">
-    <img src="flag.png" class="flag" style="top: 18%; left: 39%;" onclick="showInfo(event, 'Леся Українка – Житомирщина\nСильна духом поетка, модерністка')">
-    <img src="flag.png" class="flag" style="top: 47%; left: 29%;" onclick="showInfo(event, 'Ольга Кобилянська – Буковина\nДослідниця жіночої психології')">
-    <img src="flag.png" class="flag" style="top: 45%; left: 53%;" onclick="showInfo(event, 'Володимир Винниченко – Кропивницький\nПолітик і письменник')">
-    <img src="flag.png" class="flag" style="top: 25%; left: 45%;" onclick="showInfo(event, 'Михайло Старицький – Київщина\nЗасновник українського театру')">
-    <img src="flag.png" class="flag" style="top: 37%; left: 50%;" onclick="showInfo(event, 'Марко Вовчок – Черкащина\nНароджена на Орловщині, творила в Україні')">
 
-    <!-- Інші прапорці -->
+    <!-- прапорці з викликом showInfo(event, 'текст', 'шлях до фото') -->
+    <img src="flag.png" class="flag" style="top: 40%; left: 40%;" onclick="showInfo(event, 'Степан Руданський – Вінниччина<br>Майстер гумористичних співомовок і сатир', 'images/rudansky.png')">
+    <img src="flag.png" class="flag" style="top: 16%; left: 60%;" onclick="showInfo(event, 'Олександр Олесь – Сумщина<br>Поет-лірик, співець мрій і волі', 'images/oles.png')">
+    <img src="flag.png" class="flag" style="top: 12%; left: 51%;" onclick="showInfo(event, 'Михайло Коцюбинський – Чернігівщина<br>Імпресіоніст, автор <em>Тіней забутих предків</em>', 'images/kotsyubynsky.png')">
+    <img src="flag.png" class="flag" style="top: 29%; left: 24%;" onclick="showInfo(event, 'Іван Франко – Львівщина<br>Геніальний мислитель, поет, драматург', 'images/franko.png')">
+    <img src="flag.png" class="flag" style="top: 30%; left: 59%;" onclick="showInfo(event, 'Панас Мирний – Полтавщина<br>Автор глибоких соціально-психологічних романів', 'images/myrnyi.png')">
+    <img src="flag.png" class="flag" style="top: 18%; left: 39%;" onclick="showInfo(event, 'Леся Українка – Житомирщина<br>Сильна духом поетка, модерністка', 'images/ukrainka.png')">
+    <img src="flag.png" class="flag" style="top: 47%; left: 29%;" onclick="showInfo(event, 'Ольга Кобилянська – Буковина<br>Дослідниця жіночої психології', 'images/kobylianska.png')">
+    <img src="flag.png" class="flag" style="top: 45%; left: 53%;" onclick="showInfo(event, 'Володимир Винниченко – Кропивницький<br>Політик і письменник', 'images/vynnychenko.png')">
+    <img src="flag.png" class="flag" style="top: 25%; left: 45%;" onclick="showInfo(event, 'Михайло Старицький – Київщина<br>Засновник українського театру', 'images/starytskyi.png')">
+    <img src="flag.png" class="flag" style="top: 37%; left: 50%;" onclick="showInfo(event, 'Марко Вовчок – Черкащина<br>Народжена на Орловщині, творила в Україні', 'images/vovchok.png')">
 
     <div class="tooltip" id="tooltip"></div>
   </div>
@@ -66,9 +72,11 @@
   <script>
     const tooltip = document.getElementById('tooltip');
 
-    function showInfo(event, text) {
-      tooltip.innerHTML = text;
-      tooltip.style.top = (event.target.offsetTop - 10) + 'px';
+    function showInfo(event, htmlText, imgSrc) {
+      // Формуємо вміст тултіпа з фото та текстом
+      tooltip.innerHTML = `<img src="${imgSrc}" alt="Фото">` + `<div>${htmlText}</div>`;
+      // Розташування тултіпа поруч із прапорцем
+      tooltip.style.top = (event.target.offsetTop - tooltip.offsetHeight - 10) + 'px';
       tooltip.style.left = (event.target.offsetLeft + 30) + 'px';
       tooltip.style.display = 'block';
     }
